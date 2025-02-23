@@ -13,4 +13,11 @@ class BlendxController extends Controller
         $data = $blended->path::paginate(10);
         return response()->json(BlendxHelpers::generate_response(false, 'Data retrieved successfully!', $data), 200);
     }
+
+    public static function show(Request $request, $route, $id){
+        $uri = $request->path();
+        $blended = BlendxHelpers::blendme($uri);
+        $data = $blended->path::findOrFail($id);
+        return response()->json(BlendxHelpers::generate_response(false, 'Data retrieved successfully!', $data), 200);
+    }
 }

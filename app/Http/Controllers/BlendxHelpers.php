@@ -33,4 +33,8 @@ class BlendxHelpers extends Controller
         $response->data = $data;
         return $response;
     }
+
+    public static function is_api_request($request){
+        return $request->is('api/*');
+    }
 }
