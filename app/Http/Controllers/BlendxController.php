@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -35,12 +34,8 @@ class BlendxController extends Controller
 
         if ($validator->fails()) return response()->json(BlendxHelpers::generate_response(true, 'Validation failed!', $validator->errors()), 400);
 
-        $user = User::create($request->all());
+        $user = $blended->model::create($request->all());
         return response()->json(BlendxHelpers::generate_response(false, 'Data stored successfully!', $user), 200);
-        /*
-        $uri = $request->path();
-        $blended = BlendxHelpers::blendme($uri);
-        $getValidationRules = BlendxHelpers::store_validator($request,$blended->name);*/
     }
 
     public static function register(Request $request){

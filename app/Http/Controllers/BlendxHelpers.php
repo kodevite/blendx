@@ -24,6 +24,8 @@ class BlendxHelpers extends Controller
         $model = new \stdClass();
         $model->name = $model_name;
         $model->path = $model_path;
+        $model->blender = $model_path;
+        $model->model = new $model->blender;
         return $model;
     }
 
