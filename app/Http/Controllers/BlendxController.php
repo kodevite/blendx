@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 
 class BlendxController extends Controller
 {
@@ -26,5 +26,30 @@ class BlendxController extends Controller
         $uri = $request->path();
         $blended = BlendxHelpers::blendme($uri);
         $getValidationRules = BlendxHelpers::store_validator($request,$blended->name);
+
+        $validator = Validator::make(
+            $request->all(),
+            $getValidationRules
+
+        );
+
+        if ($validator->fails()) return response()->json(BlendxHelpers::generate_response(true, 'Validation failed!', $validator->errors()), 400);
+
+        $user = User::create($request->all());
+        return response()->json(BlendxHelpers::generate_response(false, 'Data stored successfully!', $user), 200);
+        /*
+        $uri = $request->path();
+        $blended = BlendxHelpers::blendme($uri);
+        $getValidationRules = BlendxHelpers::store_validator($request,$blended->name);*/
+    }
+
+    public static function register(Request $request){
+        $request->all();
+        $validate = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        return $validate;
     }
 }
