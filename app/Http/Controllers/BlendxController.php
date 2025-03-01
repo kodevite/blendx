@@ -51,16 +51,16 @@ class BlendxController extends Controller
 
         if ($validator->fails()) return response()->json(BlendxHelpers::generate_response(true, 'Validation failed!', $validator->errors()), 400);
 
-        $user = $blended->model::findOrFail($id);
-        $user->update($request->all());
+        $single = $blended->model::findOrFail($id);
+        $single->update($request->all());
         return response()->json(BlendxHelpers::generate_response(false, 'Data updated successfully!', $user), 200);
     }
 
     public static function delete(Request $request, $route, $id){
         $uri = $request->path();
         $blended = BlendxHelpers::blendme($uri);
-        $user = $blended->model::findOrFail($id);
-        $user->delete();
+        $single = $blended->model::findOrFail($id);
+        $single->delete();
         return response()->json(BlendxHelpers::generate_response(false, 'Data deleted successfully!', $user), 200);
     }
 }
