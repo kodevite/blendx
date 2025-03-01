@@ -10,3 +10,4 @@ Route::get('/{route}/{id}', [BlendxController::class, 'show']);
 
 Route::post('/{route}/store', [BlendxController::class, 'store']);
 Route::put('/{route}/update/{id}', [BlendxController::class, 'update']);
+Route::delete('/{route}/delete/{id}', [BlendxController::class, 'delete']);
