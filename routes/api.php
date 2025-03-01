@@ -9,3 +9,4 @@ Route::get('/{route}', [BlendxController::class, 'index']);
 Route::get('/{route}/{id}', [BlendxController::class, 'show']);
 
 Route::post('/{route}/store', [BlendxController::class, 'store']);
+Route::put('/{route}/update/{id}', [BlendxController::class, 'update']);

@@ -24,7 +24,7 @@ class BlendxController extends Controller
     public static function store(Request $request){
         $uri = $request->path();
         $blended = BlendxHelpers::blendme($uri);
-        $getValidationRules = BlendxHelpers::store_validator($request,$blended->name);
+        $getValidationRules = BlendxHelpers::store_validator($blended->name);
 
         $validator = Validator::make(
             $request->all(),
@@ -38,13 +38,21 @@ class BlendxController extends Controller
         return response()->json(BlendxHelpers::generate_response(false, 'Data stored successfully!', $user), 200);
     }
 
-    public static function register(Request $request){
-        $request->all();
-        $validate = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-        return $validate;
+    public static function update(Request $request, $route, $id){
+        $uri = $request->path();
+        $blended = BlendxHelpers::blendme($uri);
+        $getValidationRules = BlendxHelpers::update_validator($request->all(),$blended->name);
+
+        $validator = Validator::make(
+            $request->all(),
+            $getValidationRules
+
+        );
+
+        if ($validator->fails()) return response()->json(BlendxHelpers::generate_response(true, 'Validation failed!', $validator->errors()), 400);
+
+        $user = $blended->model::findOrFail($id);
+        $user->update($request->all());
+        return response()->json(BlendxHelpers::generate_response(false, 'Data updated successfully!', $user), 200);
     }
 }
