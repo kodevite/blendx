@@ -53,7 +53,7 @@ class BlendxController extends Controller
 
         $single = $blended->model::findOrFail($id);
         $single->update($request->all());
-        return response()->json(BlendxHelpers::generate_response(false, 'Data updated successfully!', $user), 200);
+        return response()->json(BlendxHelpers::generate_response(false, 'Data updated successfully!', $single), 200);
     }
 
     public static function delete(Request $request, $route, $id){
@@ -61,6 +61,6 @@ class BlendxController extends Controller
         $blended = BlendxHelpers::blendme($uri);
         $single = $blended->model::findOrFail($id);
         $single->delete();
-        return response()->json(BlendxHelpers::generate_response(false, 'Data deleted successfully!', $user), 200);
+        return response()->json(BlendxHelpers::generate_response(false, 'Data deleted successfully!', $single), 200);
     }
 }
